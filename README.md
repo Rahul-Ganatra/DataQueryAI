@@ -15,7 +15,7 @@ DataQueryAI is a versatile application designed to handle various data processin
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Rahul-Ganatra/DataQueryAI.git
    cd DataQueryAI
    ```
 
