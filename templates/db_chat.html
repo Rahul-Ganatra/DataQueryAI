@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Query Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">DataQuery AI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pdf-chat">PDF Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/db-chat">Database Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/email-analysis">Email Analysis</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="query-section">
+                    <h3 class="neon-text mb-4">Database Query System</h3>
+                    <div class="schema-info mb-4">
+                        <h5 class="neon-text">Available Tables:</h5>
+                        <pre class="schema-details">
+employees (id, name, department, salary, hire_date)
+departments (id, name, budget, location)</pre>
+                    </div>
+                    
+                    <div class="chat-section">
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="message system-message">
+                                <strong>System:</strong> Ask questions about the database in natural language.
+                                Example: "Show me all employees in the IT department" or "What is the average salary by department?"
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="user-input" placeholder="Ask a question about the database...">
+                            <button class="btn btn-primary" onclick="sendQuery()" id="send-btn">Send</button>
+                        </div>
+                        <div class="chat-controls">
+                            <button class="btn btn-outline-danger" onclick="clearMemory()">Clear Conversation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function sendQuery() {
+            const input = document.getElementById('user-input');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            addMessage("User", question);
+            input.value = '';
+
+            try {
+                const response = await fetch('/query-db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    // Show interpreted question if it's different
+                    if (data.interpreted_question) {
+                        addMessage("System", `Interpreted Question: ${data.interpreted_question}`);
+                    }
+                    
+                    // Show SQL query
+                    addMessage("System", `Generated SQL: \n${data.sql_query}`);
+                    
+                    // Show results
+                    const resultsHtml = formatResults(data.results);
+                    addMessage("System", `Results: \n${resultsHtml}`);
+                    
+                    // Show contextual analysis
+                    if (data.analysis) {
+                        const analysisHtml = `
+                            <div class="analysis-box">
+                                <h5 class="neon-text">Analysis:</h5>
+                                <p>${data.analysis}</p>
+                            </div>
+                        `;
+                        addMessage("Analyst", analysisHtml);
+                    }
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                addMessage("System", "Error: " + error.message);
+            }
+        }
+
+        async function clearMemory() {
+            try {
+                const response = await fetch('/clear-memory', {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    addMessage("System", "Conversation memory cleared. Starting fresh conversation.");
+                } else {
+                    throw new Error("Failed to clear memory");
+                }
+            } catch (error) {
+                addMessage("System", "Error: " + error.message);
+            }
+        }
+
+        function formatResults(results) {
+            if (!results || results.length === 0) {
+                return "No results found.";
+            }
+
+            let html = '<div class="results-table"><table class="table table-dark table-striped">';
+            
+            // Headers
+            html += '<thead><tr>';
+            Object.keys(results[0]).forEach(key => {
+                html += `<th>${key}</th>`;
+            });
+            html += '</tr></thead>';
+            
+            // Data
+            html += '<tbody>';
+            results.forEach(row => {
+                html += '<tr>';
+                Object.values(row).forEach(value => {
+                    html += `<td>${value}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table></div>';
+            
+            return html;
+        }
+
+        function addMessage(sender, content) {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender.toLowerCase()}-message`;
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${content}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Enter key to send message
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendQuery();
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,607 @@
+:root {
+    --neon-blue: #00f3ff;
+    --dark-bg: #121212;
+    --darker-bg: #0a0a0a;
+    --text-color: #121212;
+    --text-color2: white;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+.btn {
+    background-color: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--neon-blue);
+    color: var(--dark-bg);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+}
+
+.chat-section {
+    background-color: var(--darker-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 2rem 0;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+}
+
+.chat-messages {
+    height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.user-message {
+    background-color: rgba(0, 243, 255, 0.1);
+    margin-left: 20%;
+}
+
+.bot-message {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-right: 20%;
+}
+
+.chat-input {
+    display: flex;
+    gap: 1rem;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 0.5rem;
+    background-color: var(--dark-bg);
+    border: 1px solid var(--neon-blue);
+    color: var(--text-color2);
+    border-radius: 4px;
+}
+
+.hidden {
+    display: none;
+}
+
+.summary-section {
+    margin: 2rem 0;
+}
+
+#summary-content {
+    background-color: var(--darker-bg);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+/* Custom styles */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 100px 0;
+}
+
+.tech-feature {
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.tech-feature:hover {
+    transform: translateY(-5px);
+}
+
+.card {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: #667eea;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #764ba2;
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #667eea;
+}
+
+/* Add these styles to your existing CSS */
+.dark-theme {
+    background-color: var(--dark-bg);
+    color: var(--text-color2);
+}
+
+.navbar {
+    background-color: var(--darker-bg) !important;
+}
+
+.upload-section {
+    background-color: var(--darker-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    background-color: var(--dark-bg);
+    border-color: var(--neon-blue);
+    color: var(--text-color);
+}
+
+.form-control:focus {
+    background-color: var(--dark-bg);
+    border-color: var(--neon-blue);
+    color: var(--text-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 243, 255, 0.25);
+}
+
+.system-message {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 3px solid #ffc107;
+}
+
+.btn-outline-primary {
+    color: var(--neon-blue);
+    border-color: var(--neon-blue);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--neon-blue);
+    color: var(--dark-bg);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid #764ba2;
+    color: #764ba2;
+}
+
+/* Add these dark theme styles */
+.dark-card {
+    background-color: var(--darker-bg);
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+}
+
+.neon-text {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+.text-glow {
+    color: var(--text-color2);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.btn-neon {
+    background-color: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    transition: all 0.3s ease;
+}
+
+.btn-neon:hover:not(.disabled) {
+    background-color: var(--neon-blue);
+    color: var(--dark-bg);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+}
+
+.btn-neon.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.neon-icon {
+    color: var(--neon-blue);
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+.tech-section {
+    background-color: var(--darker-bg);
+}
+
+.footer {
+    background-color: var(--darker-bg);
+    border-top: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+    border-bottom: 1px solid var(--neon-blue);
+}
+
+/* Progress indicator styles */
+.progress-section {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: var(--darker-bg);
+    border-radius: 8px;
+    border: 1px solid var(--neon-blue);
+}
+
+.progress-container {
+    text-align: center;
+}
+
+.progress-bar {
+    height: 4px;
+    background-color: rgba(0, 243, 255, 0.1);
+    border-radius: 2px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--neon-blue);
+    width: 0;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.progress-text {
+    color: var(--neon-blue);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.progress-details {
+    color: var(--text-color2);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Disable button styles */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Add these database-specific styles */
+.schema-info {
+    background-color: var(--darker-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--neon-blue);
+}
+
+.schema-details {
+    color: var(--text-color2);
+    background-color: rgba(0, 243, 255, 0.1);
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: monospace;
+    margin: 0;
+}
+
+.results-table {
+    margin-top: 1rem;
+    overflow-x: auto;
+}
+
+.results-table table {
+    width: 100%;
+    background-color: var(--darker-bg);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.results-table th {
+    background-color: rgba(0, 243, 255, 0.1);
+    color: var(--neon-blue);
+}
+
+.results-table td {
+    color: var(--text-color);
+}
+
+/* Add these styles for the analysis box */
+.analysis-box {
+    background-color: rgba(0, 243, 255, 0.05);
+    border-left: 3px solid var(--neon-blue);
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+}
+
+.analysis-box h5 {
+    margin-bottom: 1rem;
+    color: var(--neon-blue);
+    font-size: 1.2rem;
+}
+
+.analysis-box p {
+    margin-bottom: 1rem;
+    color: var(--text-color2);
+    line-height: 1.6;
+}
+
+/* Analysis sections */
+.analysis-box ul {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.analysis-box li {
+    position: relative;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.analysis-box li::before {
+    content: "•";
+    color: var(--neon-blue);
+    position: absolute;
+    left: -1.2rem;
+}
+
+/* Section headers */
+.analysis-section {
+    margin-bottom: 2rem;
+    background: rgba(0, 243, 255, 0.02);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--neon-blue);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.section-icon {
+    font-size: 1.6rem;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.stat-card {
+    background: var(--darker-bg);
+    padding: 1.25rem;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.stat-card h5 {
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.stat-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stat-card li {
+    margin-bottom: 0.5rem;
+    color: var(--text-color2);
+    opacity: 0.9;
+}
+
+.content-analysis {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.topic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--neon-blue);
+}
+
+.sentiment-indicator {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.sentiment-indicator.positive {
+    background: rgba(0, 255, 0, 0.1);
+    color: #00ff00;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.insight-card {
+    background: var(--darker-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.insight-card.highlight {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+}
+
+.insight-card h5 {
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.insight-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.insight-card li {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.insight-card li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--neon-blue);
+}
+
+.analyst-message {
+    background-color: rgba(0, 243, 255, 0.05);
+    margin-right: 20%;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+/* Email analysis specific styling */
+.email-analysis {
+    background-color: rgba(0, 243, 255, 0.03);
+    border-left: 3px solid var(--neon-blue);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.email-pattern {
+    font-family: monospace;
+    background-color: rgba(0, 243, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+.domain-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.domain-stat {
+    background-color: rgba(0, 243, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+/* Email feature card styling */
+.card-text {
+    white-space: pre-line;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.email-feature-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+}
+
+.email-feature-list li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.email-feature-list li::before {
+    content: "•";
+    color: var(--neon-blue);
+}
+
+/* Email result styling */
+.email-result {
+    background-color: var(--darker-bg);
+    border: 1px solid rgba(0, 243, 255, 0.1);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.email-result:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+}
+
+.email-result h5 {
+    color: var(--neon-blue);
+    margin-bottom: 0.5rem;
+}
+
+.email-metadata {
+    color: var(--text-color);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.email-content {
+    color: var(--text-color);
+    margin-bottom: 0;
+    line-height: 1.4;
+} 

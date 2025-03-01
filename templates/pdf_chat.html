@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Chat Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">DataQuery AI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/pdf-chat">PDF Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/db-chat">Database Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/email-analysis">Email Analysis</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- File Upload Section -->
+            <div class="col-md-4">
+                <div class="upload-section">
+                    <h3>Upload PDFs</h3>
+                    <form id="upload-form" class="mb-4">
+                        <div class="mb-3">
+                            <input type="file" class="form-control" id="pdf-files" name="files[]" multiple accept=".pdf">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" id="process-btn">Process PDFs</button>
+                    </form>
+
+                    <!-- Progress Indicator -->
+                    <div id="progress-section" class="progress-section hidden">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <div class="progress-text">Processing PDFs...</div>
+                            <div class="progress-details">Please wait while we analyze your documents</div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Section -->
+                    <div id="summary-section" class="summary-section hidden">
+                        <h4>Document Summary</h4>
+                        <button class="btn btn-outline-primary mb-2" onclick="toggleSummary()">Toggle Summary</button>
+                        <button class="btn btn-secondary mb-2" onclick="downloadSummary()">Download Summary</button>
+                        <div id="summary-content" class="hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="col-md-8">
+                <div class="chat-section">
+                    <div id="chat-messages" class="chat-messages">
+                        <!-- Messages will be added here -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="user-input" placeholder="Ask a question about your documents..." disabled>
+                        <button class="btn btn-primary" onclick="sendMessage()" id="send-btn" disabled>Send</button>
+                    </div>
+                    <button class="btn btn-secondary mt-3" onclick="downloadConversation()">Download Conversation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let processingComplete = false;
+
+        // Handle file upload
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            const files = document.getElementById('pdf-files').files;
+            
+            if (files.length === 0) {
+                addMessage("System", "Please select at least one PDF file.");
+                return;
+            }
+
+            // Show progress indicator
+            const progressSection = document.getElementById('progress-section');
+            const processBtn = document.getElementById('process-btn');
+            progressSection.classList.remove('hidden');
+            processBtn.disabled = true;
+            
+            // Animate progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            progressFill.style.width = '0%';
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                if (progress < 90) {
+                    progress += Math.random() * 15;
+                    progressFill.style.width = `${Math.min(progress, 90)}%`;
+                }
+            }, 500);
+            
+            for (let file of files) {
+                formData.append('files[]', file);
+            }
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                // Complete progress bar
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+                
+                if (response.ok) {
+                    processingComplete = true;
+                    document.getElementById('user-input').disabled = false;
+                    document.getElementById('send-btn').disabled = false;
+                    
+                    // Show summary section and hide progress
+                    setTimeout(() => {
+                        progressSection.classList.add('hidden');
+                        document.getElementById('summary-section').classList.remove('hidden');
+                        document.getElementById('summary-content').textContent = data.summary;
+                        processBtn.disabled = false;
+                    }, 500);
+                    
+                    addMessage("System", "PDFs processed successfully. You can now ask questions about the documents.");
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                clearInterval(progressInterval);
+                progressSection.classList.add('hidden');
+                processBtn.disabled = false;
+                addMessage("System", "Error: " + error.message);
+            }
+        });
+
+        // Send message
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            addMessage("User", question);
+            input.value = '';
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    addMessage("Bot", data.answer);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                addMessage("System", "Error: " + error.message);
+            }
+        }
+
+        // Add message to chat
+        function addMessage(sender, content) {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender.toLowerCase()}-message`;
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${content}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Toggle summary
+        function toggleSummary() {
+            const summaryContent = document.getElementById('summary-content');
+            summaryContent.classList.toggle('hidden');
+        }
+
+        // Download conversation
+        async function downloadConversation() {
+            try {
+                const response = await fetch('/download-pdf', {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'conversation.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                } else {
+                    throw new Error('Failed to download conversation');
+                }
+            } catch (error) {
+                addMessage("System", "Error downloading conversation: " + error.message);
+            }
+        }
+
+        // Enter key to send message
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        // Function to download the summary as a PDF
+        async function downloadSummary() {
+            try {
+                const response = await fetch('/download-summary', { method: 'GET' });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'document_summary.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                } else {
+                    throw new Error('Failed to download summary');
+                }
+            } catch (error) {
+                alert("Error downloading summary: " + error.message);
+            }
+        }
+    </script>
+</body>
+</html> 

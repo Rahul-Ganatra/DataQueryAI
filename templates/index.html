@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Data Query System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">DataQuery AI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#demo">Demo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center py-5">
+        <div class="container">
+            <h1 class="neon-text">Intelligent Data Querying System</h1>
+            <p class="lead text-glow">Powered by Custom LLM and Generative AI</p>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 neon-text">Key Features</h2>
+            <div class="row">
+                <!-- PDF Processing Feature -->
+                <div class="col-md-4 mb-4">
+                    <div class="card dark-card">
+                        <div class="card-body">
+                            <h5 class="card-title neon-text">PDF Processing & Analysis</h5>
+                            <p class="card-text">Upload and analyze multiple PDFs with advanced text extraction and processing capabilities.</p>
+                            <a href="/pdf-chat" class="btn btn-neon">Try PDF Chat</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Database Integration -->
+                <div class="col-md-4 mb-4">
+                    <div class="card dark-card">
+                        <div class="card-body">
+                            <h5 class="card-title neon-text">Database Query System</h5>
+                            <p class="card-text">Natural language queries for structured database information.</p>
+                            <a href="/db-chat" class="btn btn-neon">Try Database Chat</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Email Analysis -->
+                <div class="col-md-4 mb-4">
+                    <div class="card dark-card">
+                        <div class="card-body">
+                            <h5 class="card-title neon-text">Email Analysis</h5>
+                            <p class="card-text">
+                                Analyze email communications for insights:
+                                • Communication patterns
+                                • Content analysis
+                                • Response metrics
+                                • Actionable insights
+                            </p>
+                            <a href="/email-analysis" class="btn btn-neon">Try Email Analysis</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CSV Data Processing -->
+                <div class="col-md-4 mb-4">
+                    <div class="card dark-card">
+                        <div class="card-body">
+                            <h5 class="card-title neon-text">CSV Data Processing</h5>
+                            <p class="card-text">Upload and analyze CSV files with natural language queries for data insights.</p>
+                            <a href="/csv-chat" class="btn btn-neon">Try CSV Chat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Features -->
+    <section class="tech-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 neon-text">Technical Capabilities</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="tech-feature text-center">
+                        <i class="fas fa-brain mb-3 neon-icon"></i>
+                        <h5 class="neon-text">Custom LLM</h5>
+                        <p>Domain-specific language model training</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tech-feature text-center">
+                        <i class="fas fa-robot mb-3 neon-icon"></i>
+                        <h5 class="neon-text">RAG Implementation</h5>
+                        <p>Retrieval-augmented generation for accurate responses</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tech-feature text-center">
+                        <i class="fas fa-language mb-3 neon-icon"></i>
+                        <h5 class="neon-text">Multilingual Support</h5>
+                        <p>Process and respond in multiple languages</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tech-feature text-center">
+                        <i class="fas fa-chart-line mb-3 neon-icon"></i>
+                        <h5 class="neon-text">Analytics</h5>
+                        <p>Advanced data analysis and visualization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+        <div class="container text-center">
+            <p class="text-glow">&copy; 2024 DataQuery AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+</body>
+</html> 

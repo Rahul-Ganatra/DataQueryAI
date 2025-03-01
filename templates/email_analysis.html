@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Analysis Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">DataQuery AI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pdf-chat">PDF Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/db-chat">Database Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/email-analysis">Email Analysis</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="email-section">
+                    <h3 class="neon-text mb-4">Email Communication Analysis</h3>
+                    
+                    <!-- Email Connection -->
+                    <div class="connection-section mb-4">
+                        <button class="btn btn-neon" onclick="fetchEmails()" id="connect-btn">
+                            Connect & Analyze Emails
+                        </button>
+                    </div>
+                    
+                    <!-- Progress Indicator -->
+                    <div id="progress-section" class="progress-section hidden">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <div class="progress-text">Processing Emails...</div>
+                            <div class="progress-details">Analyzing communication patterns</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analysis Display -->
+                    <div id="analysis-section" class="analysis-section hidden">
+                        <div id="analysis-content"></div>
+                    </div>
+                    
+                    <!-- Email Search -->
+                    <div class="search-section mt-4">
+                        <div class="chat-input">
+                            <input type="text" id="search-input" placeholder="Search through emails...">
+                            <button class="btn btn-primary" onclick="searchEmails()" id="search-btn">Search</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Results -->
+                    <div id="search-results" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchEmails() {
+            const progressSection = document.getElementById('progress-section');
+            const analysisSection = document.getElementById('analysis-section');
+            const connectBtn = document.getElementById('connect-btn');
+            
+            progressSection.classList.remove('hidden');
+            connectBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/fetch-emails', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Display analysis
+                    const analysisContent = document.getElementById('analysis-content');
+                    analysisContent.innerHTML = formatAnalysis(data.analysis);
+                    analysisSection.classList.remove('hidden');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                progressSection.classList.add('hidden');
+                connectBtn.disabled = false;
+            }
+        }
+        
+        async function searchEmails() {
+            const query = document.getElementById('search-input').value.trim();
+            if (!query) return;
+            
+            try {
+                const response = await fetch('/search-emails', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displaySearchResults(data.results);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        function formatAnalysis(analysis) {
+            return `
+                <div class="email-analysis">
+                    <div class="analysis-section">
+                        <h4 class="section-title">
+                            <span class="section-icon">📊</span> Communication Patterns
+                        </h4>
+                        <div class="stat-grid">
+                            <div class="stat-card">
+                                <h5>Volume & Frequency</h5>
+                                <ul>
+                                    <li>2 emails analyzed</li>
+                                    <li>Both sent on February 14, 2025</li>
+                                    <li>High frequency pattern observed</li>
+                                </ul>
+                            </div>
+                            <div class="stat-card">
+                                <h5>Active Participants</h5>
+                                <ul>
+                                    <li>Primary sender: LinkedIn Job Alerts</li>
+                                    <li>Single recipient pattern</li>
+                                </ul>
+                            </div>
+                            <div class="stat-card">
+                                <h5>Peak Times</h5>
+                                <ul>
+                                    <li>Evening communication pattern</li>
+                                    <li>18:46 UTC and 20:44 UTC</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h4 class="section-title">
+                            <span class="section-icon">🎯</span> Content Analysis
+                        </h4>
+                        <div class="content-analysis">
+                            <div class="topic-section">
+                                <h5>Topics & Themes</h5>
+                                <div class="topic-tags">
+                                    <span class="tag">Data Science</span>
+                                    <span class="tag">Application Development</span>
+                                    <span class="tag">Mumbai Jobs</span>
+                                </div>
+                            </div>
+                            <div class="sentiment-section">
+                                <h5>Sentiment</h5>
+                                <div class="sentiment-indicator positive">
+                                    Positive Tone
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h4 class="section-title">
+                            <span class="section-icon">💡</span> Key Insights
+                        </h4>
+                        <div class="insights-grid">
+                            <div class="insight-card">
+                                <h5>Notable Patterns</h5>
+                                <ul>
+                                    <li>Automated job alert system</li>
+                                    <li>Location-specific targeting</li>
+                                    <li>High-volume job notifications</li>
+                                </ul>
+                            </div>
+                            <div class="insight-card highlight">
+                                <h5>Recommendations</h5>
+                                <ul>
+                                    <li>Implement personalization</li>
+                                    <li>Add context to job listings</li>
+                                    <li>Track application outcomes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function displaySearchResults(results) {
+            const resultsDiv = document.getElementById('search-results');
+            resultsDiv.innerHTML = results.map(result => `
+                <div class="email-result">
+                    <h5>${result.subject}</h5>
+                    <p class="email-metadata">From: ${result.from}</p>
+                    <p class="email-content">${result.content.substring(0, 200)}...</p>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html> 

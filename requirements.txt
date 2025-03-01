@@ -1,0 +1,65 @@
+# Core Framework
+Flask==3.0.2
+python-dotenv==1.0.1
+Werkzeug==3.0.1
+
+# Database
+SQLAlchemy==2.0.27
+sqlite3-api==2.0.1
+
+# PDF Processing
+PyPDF2==3.0.1
+reportlab==4.1.0
+fpdf2==2.7.8
+
+# LangChain and AI
+langchain==0.1.9
+langchain-core==0.1.27
+langchain-google-genai==0.0.11
+langchain-community==0.0.24
+google-generativeai>=0.4.1,<0.5.0
+google-api-python-client==2.118.0
+google-auth==2.27.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.0
+
+# Vector Storage
+# faiss-cpu==1.7.4
+numpy==1.26.4
+
+# Email Processing
+python-imap==1.0.0
+email-validator==2.1.0.post1
+
+# Text Processing
+beautifulsoup4==4.12.3
+markdown==3.5.2
+python-magic==0.4.27
+
+# AWS Deployment
+gunicorn==21.2.0
+boto3==1.34.39
+botocore==1.34.39
+
+# Security
+cryptography==42.0.2
+PyJWT==2.8.0
+bcrypt==4.1.2
+
+# Utilities
+requests==2.31.0
+urllib3<2.1,>=1.25.4
+chardet==5.2.0
+certifi==2024.2.2
+idna==3.6
+six==1.16.0
+python-dateutil==2.8.2
+pytz==2024.1
+tqdm==4.66.2
+
+# Development & Testing
+pytest==8.0.1
+pytest-cov==4.1.0
+black==24.1.1
+flake8==7.0.0
+isort==5.13.2 
